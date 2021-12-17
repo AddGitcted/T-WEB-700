@@ -1,0 +1,31 @@
+version: '3'
+services:
+
+  api:
+    build: ./back
+    networks:
+      - elastic
+    ports:
+      - 8080:8080
+
+  front:
+    container_name: front
+    build:
+      context: ./front
+      dockerfile: Dockerfile
+    volumes:
+      - './front:/app'
+      - /app/node_modules
+    ports:
+      - '3000:3000'
+
+  redis:
+    image: redis
+    networks:
+      - elastic
+    ports:
+      - 6379:6379
+
+networks:
+  elastic:
+    driver: bridge

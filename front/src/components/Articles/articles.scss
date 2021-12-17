@@ -1,0 +1,41 @@
+.article__item {
+  display: flex;
+  flex-direction: row;
+  margin: 20px 0;
+  padding: 20px;
+}
+
+.article__infos {
+  display: flex;
+  flex-direction: column;
+  width: 60%;
+}
+
+.article__item img {
+}
+
+.article__cover {
+  border-radius: 20px;
+  max-height: 180px;
+  max-width: 100%;
+}
+
+.article__cover__container {
+  flex: 0 0 43.75%;
+}
+
+.article__summary {
+  color: rgb(118, 128, 143);
+}
+
+.article__edition {
+  color: black;
+}
+
+.article__edition span {
+  font-weight: bold;
+}
+
+.article__title:hover {
+  color: rgba(16, 112, 224, 0.85);
+}
