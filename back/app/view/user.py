@@ -9,6 +9,11 @@ import json
 app = Blueprint('users', __name__, url_prefix='/user')
 
 
+from flask_cors import CORS
+
+CORS(app)
+CORS(app, resources={r"*": {"origins": "*"}})
+
 class User(db.Document):
     username = db.StringField()
     email = db.StringField()

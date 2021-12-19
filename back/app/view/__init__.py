@@ -18,8 +18,11 @@ db = MongoEngine()
 db.init_app(APP)
 
 r = redis.Redis(host="redis", port=6379)
+#r = redis.Redis(host="localhost", port=6379)
+
 
 import sys
-r.flushdb()
+
 print(r.set('foo', 'bar'),file=sys.stderr)
 print(r.get('foo'), file=sys.stderr)
+r.flushdb()

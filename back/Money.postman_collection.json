@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "3537c73d-3719-42e1-9638-e2528dd0407b",
+		"_postman_id": "4e2e17b3-5fa3-4947-a270-1a3ddae847ab",
 		"name": "Money",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -15,7 +15,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"username\": \"louis\", \n    \"email\" : \"louis10@louis.com\",\n    \"password\" : \"louis\",\n    \"preferences\" : [\"bitcoin\",\"eth\"],\n    \"role\" : \"Admin\"\n}",
+							"raw": "{\n    \"username\": \"louis\", \n    \"email\" : \"louis5@louis.com\",\n    \"password\" : \"louis12\",\n    \"preferences\" : [\"bitcoin\",\"eth\", \"ETH\"],\n    \"role\" : \"Admin\",\n    \"currency\" : \"EUR\",\n        \"user_id_google\" : \"lol\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -44,7 +44,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"email\" : \"louis5@louis.com\",\n    \"password\" : \"louis\"\n}",
+							"raw": "{\n    \"email\" : \"louis9@louis.com\",\n    \"password\" : \"louis12\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -70,17 +70,523 @@
 					"name": "get profile",
 					"request": {
 						"method": "GET",
-						"header": [],
-						"url": null
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVXNlciIsIl9pZCI6IjYxYTg5M2YyZmUxNzc2ZjgxMjc0ZDIyZCIsImV4cCI6MTYzODYxMTUyOX0.jqsgwcaYUWn36bS4gc8NyXgc_IEuHtJsdznb7hi-Vag",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/user/profile",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user",
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get by provider",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVXNlciIsIl9pZCI6IjYxYTg5M2YyZmUxNzc2ZjgxMjc0ZDIyZCIsImV4cCI6MTYzODYxMTUyOX0.jqsgwcaYUWn36bS4gc8NyXgc_IEuHtJsdznb7hi-Vag",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"user_id_google\" : \"lol\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/user/auth/google",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user",
+								"auth",
+								"google"
+							]
+						}
 					},
 					"response": []
 				},
 				{
 					"name": "put profile",
 					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiQWRtaW4iLCJfaWQiOiI2MTlmZjI1YWFlYTk4NjYzZWU0MThkY2YiLCJleHAiOjE2MzgwNDg2NDV9.Wfhxy6jNWCkQwOSVgd6O2ZKROlgYOy24Kf4ERU7VICU",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"louis\", \n    \"email\" : \"louis9@louis.com\",\n    \"password\" : \"louis12\",\n    \"preferences\" : [\"bitcoin\",\"eth\"],\n    \"role\" : \"Admin\",\n    \"currency\" : \"DOL\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/user/profile",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user",
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "put profile Copy",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJjdXJyZW5jeSI6IkVVUiIsInByZWZlcmVuY2VzIjpbImJpdGNvaW4iLCJldGgiXSwicm9sZSI6IkFkbWluIiwiX2lkIjoiNjFhMGUzZTFmYjJjZDFlYWFhYTQ2MTM5IiwiZXhwIjoxNjM4NzEzMzE3fQ.wtI3V-0MT8OJ_YdNI7dH4AZSBrbJ0ADlJLZ3Xe0pS7I",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/user/profile",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user",
+								"profile"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "cryptoManagement",
+			"item": [
+				{
+					"name": "create",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJjdXJyZW5jeSI6IkVVUiIsInByZWZlcmVuY2VzIjpbImJpdGNvaW4iLCJldGgiXSwicm9sZSI6IkFkbWluIiwiX2lkIjoiNjFhYTI0ODAzYzI5ODQ1N2VhZTE2ZjcwIiwiZXhwIjoxNjM5NTA3NjMwfQ.Eqg5C1Ic-O4e3PRavYEwHuKeZVxrYxoZfQK_w75DbOM",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Test\",\n    \"idName\": \"USDT\",\n    \"icone\": \"https://cryptologos.cc/logos/tether-usdt-logo.png?v=014\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/cryptoManagement/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"cryptoManagement",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiQWRtaW4iLCJfaWQiOiI2MTlmZjI1YWFlYTk4NjYzZWU0MThkY2YiLCJleHAiOjE2MzgwNTAwNzV9.6IksKuPQw8fe0AGhW4lRenf-1-8c674zm8oG1zgflsE",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\" : \"Etherum\",\n    \"idName\" : \"ETH\",\n    \"icone\" : \"https://www.ethereum-france.com/wp-content/uploads/2016/02/ETHEREUM-ICON_Black.png\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/cryptoManagement/61a0eddb4a81bc77180a35b3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"cryptoManagement",
+								"61a0eddb4a81bc77180a35b3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiQWRtaW4iLCJfaWQiOiI2MTlmZjI1YWFlYTk4NjYzZWU0MThkY2YiLCJleHAiOjE2MzgwNTAwNzV9.6IksKuPQw8fe0AGhW4lRenf-1-8c674zm8oG1zgflsE",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\" : \"config\",\n    \"crypto\" : [\n        {\n            \"id\" : \"ETH\",\n            \"icon\" : \"https://www.ethereum-france.com/wp-content/uploads/2016/02/ETHEREUM-ICON_Black.png\",\n            \"name\" : \"Etherum\"\n        },\n        {\n            \"id\" : \"BTC\",\n            \"icon\" : \"https://cdn-icons-png.flaticon.com/512/25/25180.png\",\n            \"name\" : \"Bitcoin\"\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/cryptoManagement/61a0eddb4a81bc77180a35b3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"cryptoManagement",
+								"61a0eddb4a81bc77180a35b3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJjdXJyZW5jeSI6IkVVUiIsInByZWZlcmVuY2VzIjpbImJpdGNvaW4iLCJldGgiXSwicm9sZSI6IkFkbWluIiwiX2lkIjoiNjFhYTI0ODAzYzI5ODQ1N2VhZTE2ZjcwIiwiZXhwIjoxNjM5NTA3NjMwfQ.Eqg5C1Ic-O4e3PRavYEwHuKeZVxrYxoZfQK_w75DbOM",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/cryptoManagement/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"cryptoManagement",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get Copy",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiQWRtaW4iLCJfaWQiOiI2MTlmZjI1YWFlYTk4NjYzZWU0MThkY2YiLCJleHAiOjE2MzgwNTAwNzV9.6IksKuPQw8fe0AGhW4lRenf-1-8c674zm8oG1zgflsE",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/cryptoManagement/61a0eeb37abdf62586122907",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"cryptoManagement",
+								"61a0eeb37abdf62586122907"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "crypto",
+			"item": [
+				{
+					"name": "get crytpo list",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJjdXJyZW5jeSI6IkVVUiIsInByZWZlcmVuY2VzIjpbImJpdGNvaW4iLCJldGgiXSwicm9sZSI6IkFkbWluIiwiX2lkIjoiNjFhYTI0ODAzYzI5ODQ1N2VhZTE2ZjcwIiwiZXhwIjoxNjM5NTA2MDUwfQ.bDoVw6AzQ9hiU4YkuytWK6T7YSmUc_KVo6x29efTU14",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/cryptos?cmids=ETH",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"cryptos"
+							],
+							"query": [
+								{
+									"key": "cmids",
+									"value": "ETH"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get crytpo",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJjdXJyZW5jeSI6IkVVUiIsInByZWZlcmVuY2VzIjpbImJpdGNvaW4iLCJldGgiXSwicm9sZSI6IkFkbWluIiwiX2lkIjoiNjFhYTI0ODAzYzI5ODQ1N2VhZTE2ZjcwIiwiZXhwIjoxNjM5NTA2MDUwfQ.bDoVw6AzQ9hiU4YkuytWK6T7YSmUc_KVo6x29efTU14",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/cryptos/ETH",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"cryptos",
+								"ETH"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get crytpo history",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJjdXJyZW5jeSI6IkVVUiIsInByZWZlcmVuY2VzIjpbImJpdGNvaW4iLCJldGgiXSwicm9sZSI6IkFkbWluIiwiX2lkIjoiNjFhYTI0ODAzYzI5ODQ1N2VhZTE2ZjcwIiwiZXhwIjoxNjM5NTA2MDUwfQ.bDoVw6AzQ9hiU4YkuytWK6T7YSmUc_KVo6x29efTU14",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/cryptos/BTC/history/1MIN",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"cryptos",
+								"BTC",
+								"history",
+								"1MIN"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "exchange rate",
+					"request": {
 						"method": "GET",
 						"header": [],
-						"url": null
+						"url": {
+							"raw": "http://localhost:8080/cryptos/exchangerate/BTC",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"cryptos",
+								"exchangerate",
+								"BTC"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "press",
+			"item": [
+				{
+					"name": "articles",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/articles?tag=BTC&tag=NFT",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"articles"
+							],
+							"query": [
+								{
+									"key": "tag",
+									"value": "BTC"
+								},
+								{
+									"key": "tag",
+									"value": "NFT"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get avalaible tag",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/articles/available_tag",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"articles",
+								"available_tag"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "article",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJjdXJyZW5jeSI6IkVVUiIsInByZWZlcmVuY2VzIjpbImJpdGNvaW4iLCJldGgiLCJFVEgiXSwicm9sZSI6IkFkbWluIiwiX2lkIjoiNjFhYTI0OGUzYzI5ODQ1N2VhZTE2ZjcxIiwiZXhwIjoxNjM4NzE2ODMwfQ._2f5ioIpRCfBh10utqu8CswLABuok6PT9V0EgcX7yTQ",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/articles/f5093ece-d3e5-4b11-92e6-4c7ab9e139d2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"articles",
+								"f5093ece-d3e5-4b11-92e6-4c7ab9e139d2"
+							]
+						}
 					},
 					"response": []
 				}

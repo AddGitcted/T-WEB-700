@@ -1,7 +1,8 @@
 
-from flask import request, Blueprint
-from flask_cors import  cross_origin
-from jwt_handler import encode_jwt, decode_jwt
+
+from flask import request, Blueprint, jsonify
+from flask_cors import  cross_origin, CORS
+from jwt_handler import decode_jwt
 from view.crypto_management import get_crypto_by_name
 
 import re
@@ -11,15 +12,24 @@ import sys
 import os
 from datetime import datetime, timedelta
 
-app = Blueprint('crytpo', __name__, url_prefix='/cryptos')
+app = Blueprint('crytpo', __name__)
+
+CORS(app)
+CORS(app, resources={r"*": {"origins": "*"}})
 
 if os.getenv('API_KEY') != None:
     API_KEY = os.getenv('API_KEY')
 else:
-    API_KEY = 'F8797586-827C-4877-858B-00B9F2112AB2'
+    API_KEY = '19EED93F-BDAA-44EA-8069-8F076B650C54'
+    #API_KEY = '10E92991-2B8C-4503-96A2-5A1ACA44C99F'
+    # API_KEY = 'B6FC1227-D750-48CD-BF15-4FEC35DF99D1'
+    #API_KEY = "24721720-2615-41AE-8442-84EF594E5076"
+    #62DB5035-C9A1-4EB0-8BC8-2B097A0EFB6A
+    #19EED93F-BDAA-44EA-8069-8F076B650C54
 
-@app.route('/', methods = ['GET'])
-@cross_origin()
+
+@app.route('/cryptos/', methods = ['GET'])
+@cross_origin(origin='*')
 def get_all_crypto_data():
     """
     Get all crypto data from API
@@ -35,13 +45,16 @@ def get_all_crypto_data():
             url = f'https://rest.coinapi.io/v1/ohlcv/BITSTAMP_SPOT_{crypto}_{currency}/latest?period_id=1SEC'
             headers = {'X-CoinAPI-Key' : API_KEY}
             response = requests.get(url, headers=headers)
-            res.append({ "cryptoInfo" : json.loads(get_crypto_by_name(crypto)), "data" : response.json()[0]})
-        return {"list" : res}, 200
+            try:
+                res.append({ "cryptoInfo" : json.loads(get_crypto_by_name(crypto)), "data" : response.json()[0]})
+            except:
+                res.append({ "cryptoInfo" : json.loads(get_crypto_by_name(crypto)), "data" : response.json()})
+        return jsonify({"list" : res}), 200
     except Exception as e:
         return {'error': str(e)}, 500
 
-@app.route('/<crypto_id>', methods = ['GET'])
-@cross_origin()
+@app.route('/cryptos/<crypto_id>', methods = ['GET'])
+@cross_origin(origin='*')
 def get_crypto_data(crypto_id):
     """
     Get crypto data from API
@@ -60,7 +73,8 @@ def get_crypto_data(crypto_id):
         url = f'https://rest.coinapi.io/v1/ohlcv/BITSTAMP_SPOT_{crypto_id}_{playload["currency"]}/latest?period_id=1MIN'
         headers = {'X-CoinAPI-Key' : API_KEY}
         response = requests.get(url, headers=headers)
-        return {"list" : [{ "cryptoInfo" : json.loads(get_crypto_by_name(crypto_id)), "data" : response.json()[0]}]}, 200
+        print(json.dumps(response.json(), indent=4), file=sys.stderr)
+        return jsonify({"list" : [{ "cryptoInfo" : json.loads(get_crypto_by_name(crypto_id)), "data" : response.json()[0]}]}), 200
     except Exception as e:
         return {'error': str(e)}, 500
 
@@ -87,7 +101,7 @@ def handle_period_start(period):
     elif period == 'M':
         timestamp =  datetime.now() - timedelta(days=int(period_stock)*30)
     elif period == 'Y':
-        timestamp =  datetime.now() - timedelta(years=int(period_stock))
+        timestamp =  datetime.now() - timedelta(weeks=55*int(period_stock))
     print("handle_period_start", period_stock, period, timestamp, file=sys.stderr)
     return timestamp.strftime("%Y-%m-%d") + "T00:00:00"
 
@@ -110,14 +124,14 @@ def handle_number_of_elem(period_stock):
     elif period == 'D':
         return "1HRS"
     elif period == 'W':
-        return "5DAY"
+        return "7DAY"
     elif period == 'M':
         return "1DAY"
     elif period == 'Y':
-        return "1DAY"
+        return "5DAY"
 
-@app.route('/<crypto_id>/history/<period>', methods = ['GET'])
-@cross_origin()
+@app.route('/cryptos/<crypto_id>/history/<period>', methods = ['GET'])
+@cross_origin(origin='*')
 def get_crypto_data_period(crypto_id, period):
     """
     Get crypto data from API with period
@@ -138,7 +152,24 @@ def get_crypto_data_period(crypto_id, period):
         print(handle_number_of_elem(period), file=sys.stderr)
         headers = {'X-CoinAPI-Key' : API_KEY}
         response = requests.get(url, headers=headers)
-        return {"list" : [{ "cryptoInfo" : json.loads(get_crypto_by_name(crypto_id)), "data" : response.json()}]}, 200
+        return jsonify({"list" : [{ "cryptoInfo" : json.loads(get_crypto_by_name(crypto_id)), "data" : response.json()}]}), 200
     except Exception as e:
         return {'error': str(e)}, 500
 
+@app.route('/cryptos/exchangerate/<crypto_id>', methods = ['GET'])
+@cross_origin(origin='*')
+def exchangerate(crypto_id):
+    """
+    Get crypto data from API
+    
+    Args:
+        crypto_id (id of the crypto ex : ETH): get crypto data by id
+    """
+    header = request.headers.get('token')
+    playload = decode_jwt(header)
+    if playload is None:
+        currency = "EUR"
+    else:
+        currency = playload["currency"]
+    headers = {'X-CoinAPI-Key' : API_KEY}
+    return jsonify(requests.get(f"https://rest.coinapi.io/v1/exchangerate/{crypto_id}/{currency}", headers=headers).json()), 200

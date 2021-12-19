@@ -1,23 +1,27 @@
 
+
 from flask import request, Blueprint
-from flask_cors import  cross_origin
+from flask_cors import  cross_origin, CORS
 from view import db
 from jwt_handler import decode_jwt
 
 import json
 
-app = Blueprint('cryptosManagement', __name__, url_prefix='/cryptoManagement')
+app = Blueprint('cryptosManagement', __name__)
 
+CORS(app)
+CORS(app, resources={r"*": {"origins": "*"}})
 
 class CryptoList(db.Document):
     name = db.StringField()
     idName = db.StringField()
     icone = db.StringField()
 
+
 def get_crypto_by_name(name):
     return CryptoList.objects(idName=name).first().to_json()
 
-@app.route('/', methods = ['POST'])
+@app.route('/cryptoManagement/', methods = ['POST'])
 @cross_origin()
 def create_crypto():
     """
@@ -36,11 +40,11 @@ def create_crypto():
                 idName = body['idName'],
                 icone = body['icone']
             ).save()
-            return crypto.to_json(), 201
+            return json.loads(crypto.to_json()), 201
     except Exception as e:
-        return json.dumps({"error": str(e)})
+        return json.dumps({"error": str(e)}), 500
 
-@app.route('/<id>', methods = ['PUT'])
+@app.route('/cryptoManagement/<id>', methods = ['PUT'])
 @cross_origin()
 def update_crypto(id):
     """
@@ -63,11 +67,11 @@ def update_crypto(id):
                 idName = body['idName'],
                 icone = body['icone']
             )
-            return CryptoList.objects(id=id).first().to_json(), 200
+            return json.loads(CryptoList.objects(id=id).first().to_json()), 200
     except Exception as e:
         return json.dumps({"error": str(e)})
 
-@app.route('/<id>', methods = ['DELETE'])
+@app.route('/cryptoManagement/<id>', methods = ['DELETE'])
 @cross_origin()
 def delete_crypto(id):
     """
@@ -89,7 +93,7 @@ def delete_crypto(id):
     except Exception as e:
         return json.dumps({"error": str(e)})
 
-@app.route('/', methods = ['GET'])
+@app.route('/cryptoManagement/', methods = ['GET'])
 @cross_origin()
 def get_cryptos():
     """
@@ -99,6 +103,24 @@ def get_cryptos():
         List of object: List of cryptos
     """
     try:
-        return CryptoList.objects().to_json(), 200
+        res = []
+        for object in json.loads(CryptoList.objects().to_json()):
+            res.append(object)    
+        return {"cryptos" : res}, 200
+    except Exception as e:
+        return json.dumps({"error": str(e)})
+
+
+@app.route('/cryptoManagement/<id>', methods = ['GET'])
+@cross_origin()
+def get_crypto(id):
+    """
+    Get all cryptos
+
+    Returns:
+        List of object: List of cryptos
+    """
+    try:
+        return json.loads(CryptoList.objects(id=id).first().to_json()), 200
     except Exception as e:
         return json.dumps({"error": str(e)})

@@ -8,6 +8,11 @@ from view.user import User
 
 app = Blueprint('auth', __name__, url_prefix='/user')
 
+from flask_cors import CORS
+
+CORS(app)
+CORS(app, resources={r"*": {"origins": "*"}})
+
 @app.route('/auth/<provider>', methods = ['GET'])
 @cross_origin()
 def get_user_by_provider(provider):

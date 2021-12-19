@@ -2,7 +2,7 @@ import Axios from "axios";
 
 export const createCrypto = async (token, name, idName, iconUrl) => {
   const res = await Axios.post(
-    "http://localhost:8080/cryptos?cmids=ETH",
+    `${process.env.REACT_APP_API_HOST}/cryptoManagement/`,
     {
       name: name,
       idName: idName,
@@ -19,7 +19,7 @@ export const createCrypto = async (token, name, idName, iconUrl) => {
 
 export const getCurrentCryptoList = async (token) => {
   const res = await Axios.get(
-    `http://localhost:8080/cryptoManagement/?token=${token}`,
+    `${process.env.REACT_APP_API_HOST}/cryptoManagement/`,
     {
       headers: {
         token: token,
@@ -30,10 +30,13 @@ export const getCurrentCryptoList = async (token) => {
 };
 
 export const deleteCurrentCrypto = async (token, id) => {
-  const res = await Axios.delete(`http://localhost:8080/cryptoManagement/`, {
-    headers: {
-      token: token,
-    },
-  });
+  const res = await Axios.delete(
+    `${process.env.REACT_APP_API_HOST}/cryptoManagement/${id}`,
+    {
+      headers: {
+        token: token,
+      },
+    }
+  );
   return res.data;
 };

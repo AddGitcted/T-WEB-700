@@ -14,7 +14,6 @@ const Header = () => {
     useContext(Context);
   const navigate = useNavigate();
 
-  console.log("userData", userData);
   return (
     <Wrapper>
       <Band></Band>
@@ -96,7 +95,7 @@ const ButtonWrapper = styled(Button)`
 `;
 
 const LinkWrapper = styled(Link)`
-  text-decoration: none;
+  text-decoration: none !important;
   margin: 0 15px;
   & > h1 {
     margin: 0;
@@ -111,6 +110,8 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   border-bottom: 1px solid rgb(239, 242, 245);
+  z-index: 1500;
+
 `;
 
 const Band = styled.div`

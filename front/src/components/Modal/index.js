@@ -34,7 +34,7 @@ const Wrapper = styled.div`
   right: 0;
   bottom: 0;
   background-color: rgba(34, 34, 34, 0.5);
-  z-index: 15;
+  z-index: 1600;
 `;
 
 const CloseButton = styled.button`

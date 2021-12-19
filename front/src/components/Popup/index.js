@@ -44,6 +44,7 @@ const Popup = () => {
       disableWindowBlurListener
       onClose={handleClose}
       className={customCss.customSize}
+      style={{ zIndex: 2500 }}
     >
       <Alert
         className={customCss.root}

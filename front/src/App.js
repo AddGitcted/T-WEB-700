@@ -9,11 +9,12 @@ import CryptoCurrency from "./components/CryptoCurrency";
 import Profile from "./components/User/Profile";
 import NotFound from "./components/NotFound";
 import Articles from "./components/Articles";
+import CryptoCurrencies from "./components/CryptoCurrencies";
 
 export const Context = createContext(null);
 
 const App = () => {
-  const [userData, setUserData] = useState();
+  const [userData, setUserData] = useState("anonymous");
 
   const [showModal, setShowModal] = useState({
     display: false,
@@ -51,8 +52,9 @@ const App = () => {
             <Route path="/" element={<Home />} />
             <Route path="/user/profile" element={<Profile />} />
             <Route path="/cryptocurrency/:name" element={<CryptoCurrency />} />
-            <Route path="*" element={<NotFound />} />
             <Route path="/articles/" element={<Articles />} />
+            <Route path="/cryptocurrencies/" element={<CryptoCurrencies />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </Context.Provider>
       </BrowserRouter>

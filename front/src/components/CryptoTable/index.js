@@ -1,193 +1,182 @@
 import styled from "styled-components";
 import { Table } from "antd";
 import { getCrypto } from "../../helpers/cryptoServices";
-import { Link, useNavigate } from "react-router-dom";
+import { getCurrentCryptoList } from "../../helpers/cryptoManagementServices";
+import { useNavigate } from "react-router-dom";
 import "antd/dist/antd.css";
+import { useState, useContext, useEffect } from "react";
+import { Context } from "../../App";
 
 const CryptoTable = () => {
   const { token } = JSON.parse(localStorage.getItem("token")) || {};
   const navigate = useNavigate();
-  const list = [
-    {
-      cryptoInfo: {
-        _id: {
-          $oid: "61b283bd941bc11b1cb1e4c9",
-        },
-        icone:
-          "https://www.ethereum-france.com/wp-content/uploads/2016/02/ETHEREUM-ICON_Black.png",
-        idName: "SOL",
-        name: "Solana",
-      },
-      data: {
-        price_close: 3602.71,
-        price_high: 3602.71,
-        price_low: 3601.44,
-        price_open: 3601.44,
-        time_close: "2021-12-10T09:30:21.8220000Z",
-        time_open: "2021-12-10T09:30:21.8220000Z",
-        time_period_end: "2021-12-10T09:30:22.0000000Z",
-        time_period_start: "2021-12-10T09:30:21.0000000Z",
-        trades_count: 2,
-        volume_traded: 0.03457568,
-      },
-    },
-    {
-      cryptoInfo: {
-        _id: {
-          $oid: "61b283bd941bc11b1cb1e4c9",
-        },
-        icone:
-          "https://www.ethereum-france.com/wp-content/uploads/2016/02/ETHEREUM-ICON_Black.png",
-        idName: "ETH",
-        name: "Etherum",
-      },
-      data: {
-        price_close: 3602.71,
-        price_high: 3602.71,
-        price_low: 3601.44,
-        price_open: 3601.44,
-        time_close: "2021-12-10T09:30:21.8220000Z",
-        time_open: "2021-12-10T09:30:21.8220000Z",
-        time_period_end: "2021-12-10T09:30:22.0000000Z",
-        time_period_start: "2021-12-10T09:30:21.0000000Z",
-        trades_count: 2,
-        volume_traded: 0.03457568,
-      },
-    },
-    {
-      cryptoInfo: {
-        _id: {
-          $oid: "61b283bd941bc11b1cb1e4c9",
-        },
-        icone:
-          "https://www.ethereum-france.com/wp-content/uploads/2016/02/ETHEREUM-ICON_Black.png",
-        idName: "BTC",
-        name: "Bitcoin",
-      },
-      data: {
-        price_close: 3602.71,
-        price_high: 3602.71,
-        price_low: 3601.44,
-        price_open: 3601.44,
-        time_close: "2021-12-10T09:30:21.8220000Z",
-        time_open: "2021-12-10T09:30:21.8220000Z",
-        time_period_end: "2021-12-10T09:30:22.0000000Z",
-        time_period_start: "2021-12-10T09:30:21.0000000Z",
-        trades_count: 2,
-        volume_traded: 0.03457568,
-      },
-    },
 
-    {
-      cryptoInfo: {
-        _id: {
-          $oid: "61b283bd941bc11b1cb1e4c9",
-        },
-        icone:
-          "https://www.ethereum-france.com/wp-content/uploads/2016/02/ETHEREUM-ICON_Black.png",
-        idName: "DOGE",
-        name: "Dogecoin",
-      },
-      data: {
-        price_close: 3602.71,
-        price_high: 3602.71,
-        price_low: 3601.44,
-        price_open: 3601.44,
-        time_close: "2021-12-10T09:30:21.8220000Z",
-        time_open: "2021-12-10T09:30:21.8220000Z",
-        time_period_end: "2021-12-10T09:30:22.0000000Z",
-        time_period_start: "2021-12-10T09:30:21.0000000Z",
-        trades_count: 2,
-        volume_traded: 0.03457568,
-      },
-    },
-  ];
+  const [data, setData] = useState();
+  const [list, setList] = useState();
 
-  const dataSource = [
-    {
-      key: "1",
-      symbol:
-        "https://www.ethereum-france.com/wp-content/uploads/2016/02/ETHEREUM-ICON_Black.png",
-      idName: "BTC",
-      name: "Bitcoin",
-      rank: 1,
-      link: "/btc",
-    },
-    {
-      key: "2",
-      symbol:
-        "https://www.ethereum-france.com/wp-content/uploads/2016/02/ETHEREUM-ICON_Black.png",
-      idName: "BTC",
-      name: "Bitcoin",
-      rank: 2,
-      link: "/eth",
-    },
-    {
-      key: "3",
-      symbol:
-        "https://www.ethereum-france.com/wp-content/uploads/2036/02/ETHEREUM-ICON_Black.png",
-      idName: "BTC",
-      name: "Bitcoin",
-      rank: 3,
-      link: "/sol",
-    },
-    {
-      key: "4",
-      symbol:
-        "https://www.ethereum-france.com/wp-content/uploads/2046/02/ETHEREUM-ICON_Black.png",
-      idName: "BTC",
-      name: "Bitcoin",
-      rank: 4,
-      link: "/doge",
-    },
-  ];
+  const { userData, setShowModal } = useContext(Context);
+
+  const formatData = (data) => {
+    return (
+      data &&
+      data.map((raw, index) => ({
+        key: index + 1,
+        symbol: raw.cryptoInfo.icone,
+        idName: raw.cryptoInfo.idName,
+        name: raw.cryptoInfo.name,
+        link: `${raw.cryptoInfo.idName.toLocaleLowerCase}`,
+        price_average: `${(raw.data.price_high + raw.data.price_low) / 2} €`,
+        price_high: `${raw.data.price_high} €`,
+        price_low: `${raw.data.price_low} €`,
+      }))
+    );
+  };
+
+  const formatData2 = (data, type) => {
+    return (
+      data &&
+      data.map((raw, index) => ({
+        key: index + 1,
+        symbol: raw.icone,
+        idName: raw.idName,
+        name: raw.name,
+        link: `${raw.idName.toLocaleLowerCase}`,
+      }))
+    );
+  };
 
   const columns = [
+    {
+      title: "#",
+      dataIndex: "key",
+      key: "key",
+    },
     {
       title: "Name",
       dataIndex: "name",
       key: "name",
+      render: (text, record) => {
+        return (
+          <NameCell>
+            <img src={record.symbol} alt={record.idName} />
+            <p>{record.name}</p>
+            <p>{record.idName}</p>
+          </NameCell>
+        );
+      },
     },
     {
-      title: "Price",
-      dataIndex: "price",
-      key: "price",
+      title: "Price average",
+      dataIndex: "price_average",
+      key: "price_average",
     },
     {
-      title: "Market Cap",
-      dataIndex: "marketcap",
-      key: "marketcap",
-    },
-
-    {
-      title: "Volume (24hrs)",
-      dataIndex: "volume",
-      key: "volume",
+      title: "Price low",
+      dataIndex: "price_low",
+      key: "price_low",
     },
     {
-      title: "Rank",
-      dataIndex: "rank",
-      key: "rank",
+      title: "Price high",
+      dataIndex: "price_high",
+      key: "price_high",
     },
   ];
+
+  const columns2 = [
+    {
+      title: "#",
+      dataIndex: "key",
+      key: "key",
+    },
+    {
+      title: "Name",
+      dataIndex: "name",
+      key: "name",
+      render: (text, record) => {
+        return (
+          <NameCell>
+            <img src={record.symbol} alt={record.idName} />
+            <p>{record.name}</p>
+            <p>{record.idName}</p>
+          </NameCell>
+        );
+      },
+    },
+  ];
+
+  const getData = () => {
+    getCurrentCryptoList(token).then((res) => {
+      getCrypto(token, res.cryptos).then((res) => {
+        setData(
+          res.list.filter((item) =>
+            userData?.preferences.includes(item.cryptoInfo["idName"])
+          )
+        );
+      });
+    });
+  };
+
+  useEffect(() => {
+    if (userData === "anonymous")
+      getCurrentCryptoList(token).then((res) => {
+        setList(res.cryptos);
+      });
+    else getData();
+    // eslint-disable-next-line
+  }, []);
 
   return (
     <Wrapper>
       <Table
-        dataSource={dataSource}
-        columns={columns}
+        dataSource={
+          userData === "anonymous" ? formatData2(list) : formatData(data)
+        }
+        columns={userData === "anonymous" ? columns2 : columns}
         onRow={(record, rowIndex) => {
           return {
             onClick: (event) =>
-              navigate(`/cryptocurrency/${record.name.toLocaleLowerCase()}`),
+              userData === "anonymous"
+                ? setShowModal({ display: true, type: "loginModal" })
+                : navigate(
+                    `/cryptocurrency/${record.name.toLocaleLowerCase()}`
+                  ),
           };
         }}
       />
-      ;
     </Wrapper>
   );
 };
 
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+  background-color: #fafafa;
+  padding: 15px;
+  border-radius: 20px;
+  box-shadow: rgb(0 0 0 / 10%) 0px 5px 20px;
+`;
+
+const NameCell = styled.div`
+  display: flex;
+  align-items: center;
+  & > img {
+    object-fit: cover;
+    height: 30px;
+    width: 30px;
+  }
+  & > p {
+    margin: 0 0 0 5px !important;
+    line-height: 1.5;
+    margin: 0px;
+    color: rgb(23, 25, 36);
+    font-weight: 600;
+    font-size: 14px;
+  }
+  & > p:last-child {
+    margin: 0 0 0 5px !important;
+    line-height: 1.5;
+    margin: 0px;
+    color: rgb(128, 138, 157);
+    font-size: 14px;
+  }
+`;
 
 export default CryptoTable;

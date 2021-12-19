@@ -7,15 +7,15 @@ const Home = () => {
   return (
     <Layout>
       <Wrapper>
-        <ArticleSlider></ArticleSlider>
-        <CryptoTable></CryptoTable>
+        <ArticleSlider />
+        <CryptoTable />
       </Wrapper>
     </Layout>
   );
 };
 
 const Wrapper = styled.div`
-  height: 1000px;
+  padding-top: 50px;
 `;
 
 export default Home;
