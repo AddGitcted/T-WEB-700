@@ -14,8 +14,6 @@ import CryptoCurrencies from "./components/CryptoCurrencies";
 export const Context = createContext(null);
 
 const App = () => {
-  const [userData, setUserData] = useState("anonymous");
-
   const [showModal, setShowModal] = useState({
     display: false,
     type: "",
@@ -28,12 +26,15 @@ const App = () => {
   });
 
   const { token } = JSON.parse(localStorage.getItem("token")) || {};
+  const [userData, setUserData] = useState();
 
   useEffect(() => {
     if (!token) setShowModal({ display: true, type: "loginModal" });
     if (!userData) getUser(token, setUserData).then((res) => setUserData(res));
     // eslint-disable-next-line
   }, []);
+
+  console.log(userData);
 
   return (
     <Wrapper>
