@@ -1,8 +1,8 @@
 import styled from "styled-components";
 import Layout from "../Layout";
-import HighchartsReact from "highcharts-react-official";
 import Highcharts from "highcharts";
 import { getCryptoHistory } from "../../helpers/cryptoServices";
+import HighchartsReact from "highcharts-react-official";
 import { useParams } from "react-router-dom";
 import "./bootstrap.min.scss";
 import "./style.scss";
@@ -87,7 +87,11 @@ const CryptoCurrency = () => {
             </button>
           </div>
         </div>
-        <HighchartsReact highcharts={Highcharts} options={options} />
+        <HighchartsReact
+          containerProps={{ className: "chartContainer" }}
+          highcharts={Highcharts}
+          options={options}
+        />
       </Wrapper>
     </Layout>
   );

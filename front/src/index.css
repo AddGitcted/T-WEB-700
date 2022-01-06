@@ -31,3 +31,7 @@ code {
 .ant-table-cell {
   font-weight: bold;
 }
+
+.highcharts-legend highcharts-no-tooltip {
+  display: none !important;
+}
